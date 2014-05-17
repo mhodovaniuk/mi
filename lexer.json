@@ -1,0 +1,31 @@
+{
+    "case-sensitive":false,
+    "ignore":["whitespace"],
+    "keywords": ["select", "where", "from", "group by", "having","null"],
+    "error":{
+        "class-name":"error",
+        "recovery-classes":["whitespace","separator"]
+    },
+    "patterns": [
+        {
+            "class":"identifier",
+            "pattern":"[a-zA-Z_][a-zA-Z0-9_]*"
+        },
+        {
+            "class":"whitespace",
+            "pattern":"[ \t\n]+"
+        },
+        {
+            "class":"integer",
+            "pattern":"[1-9][0-9]*"
+        },
+        {
+            "class":"string",
+            "pattern":"[\"][a-zA-Z0-9_]*[\"]"
+        },
+        {
+            "class":"separator",
+            "pattern":">=|<=|,"
+        }
+    ]
+}
