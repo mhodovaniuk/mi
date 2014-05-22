@@ -4,6 +4,8 @@ import scala.collection.immutable.StringOps
 import scala.collection.mutable.ArrayBuffer
 import scala.util.matching.Regex
 import scala.collection.mutable.ArrayBuffer
+import ua.knu.common.utils.FileUtils
+
 class Lexer(configFileName: String) {
   var errorClassName=new String
   var recoveryClasses=List[String]()
@@ -14,7 +16,7 @@ class Lexer(configFileName: String) {
   init(configFileName)
 
   private def init(fileName: String) {
-    val jsonText = io.Source.fromFile(fileName).getLines().mkString("\n")
+    val jsonText = FileUtils.readFileContent(fileName)
     val json = util.parsing.json.JSON.parseFull(jsonText)
     json match {
       case Some(m: Map[String, Any]) => {

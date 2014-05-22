@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<?import ua.knu.gui.dialogs.ButtonPane?>
+<BorderPane fx:id="dialogPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="111.0" prefWidth="411.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.knu.gui.dialogs.openp.OpenProjectController">
+    <center>
+        <HBox alignment="CENTER" prefHeight="82.0" prefWidth="411.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" text="Project file" textAlignment="CENTER">
+                    <HBox.margin>
+                        <Insets right="10.0" top="10.0" />
+                    </HBox.margin>
+                </Label>
+                <TextField fx:id="projectFileNameTF" prefHeight="16.0" prefWidth="188.0">
+                    <HBox.margin>
+                        <Insets right="10.0" />
+                    </HBox.margin>
+                </TextField>
+                <Button fx:id="projectChooseFileBtn" alignment="CENTER" mnemonicParsing="false" text="Choose File">
+                    <HBox.margin>
+                        <Insets right="10.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
+    </center>
+   <bottom>
+        <ButtonPane fx:id="buttonPane"/>
+   </bottom>
+</BorderPane>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="primaryScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="1175.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.knu.gui.PrimaryController">
+   <top>
+      <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu fx:id="fileMenuItem" mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="newMenuItem" mnemonicParsing="false" onAction="#onNewProjectClick" text="New" />
+                  <MenuItem fx:id="openMenuItem" mnemonicParsing="false" text="Open" onAction="#onOpenProjectClick" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" text="Save As.." />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#onClose" text="Close" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Plugins">
+               <items>
+                  <CheckMenuItem mnemonicParsing="false" text="show something" />
+               </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.2826086956521739" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TreeTableView fx:id="tree" prefHeight="677.0" prefWidth="328.0">
+                    <columns>
+                      <TreeTableColumn prefWidth="140.0" text="Nodes" />
+                      <TreeTableColumn prefWidth="157.0" text="Attributes" />
+                    </columns>
+                  </TreeTableView>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TextFlow fx:id="editor" layoutX="48.0" layoutY="75.0" prefHeight="677.0" prefWidth="837.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </center>
+</BorderPane>

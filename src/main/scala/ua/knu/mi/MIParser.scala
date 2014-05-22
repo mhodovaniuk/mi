@@ -9,17 +9,17 @@ import scala.util.parsing.combinator.RegexParsers
 import ua.knu.mi.ast.syntax.QuantifierType.QuantifierType
 import ua.knu.mi.ast.syntax.QuantifierType
 
-final class MIParser {
+object MIParser {
   val parser: Parser = new Parser()
 
-  def parseFile(grammerFileName: String): AST = {
-    val source = Source.fromFile(grammerFileName)
-    val grammar = source.mkString
-    parseCode(grammar)
+  def parseConfigFile(configFileName: String): AST = {
+    val source = Source.fromFile(configFileName)
+    val grammar = source.mkString("\n")
+    parseConfig(grammar)
   }
 
-  def parseCode(code: String): AST = {
-    new AST(parser.parseAll(parser.PROGRAM, code).get)
+  def parseConfig(config: String): AST = {
+    new AST(parser.parseAll(parser.PROGRAM, config).get)
   }
 
   class Parser extends RegexParsers {

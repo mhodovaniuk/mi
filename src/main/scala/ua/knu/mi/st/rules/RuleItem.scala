@@ -1,5 +1,7 @@
 package ua.knu.mi.st.rules
 
-trait RuleItem {
+import scala.collection.mutable
 
+trait RuleItem {
+  val attributes=mutable.HashMap[String,Any]()
 }
