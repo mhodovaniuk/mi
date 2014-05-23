@@ -1,0 +1,1 @@
+select id, name from People where year=2000

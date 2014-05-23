@@ -2,7 +2,7 @@ package ua.knu
 
 import ua.knu.mi.MIParser
 import ua.knu.mi.ast._
-import ua.knu.mi.utils.ASTSerializationService
+import ua.knu.common.ASTSerializationService
 
 object Main {
   def main(args: Array[String]) {

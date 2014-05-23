@@ -1,0 +1,21 @@
+INHERITANCE.
+    CALC-OBJECT:
+        <
+            IDENTIFIER;
+            INTEGER
+        >.
+
+    CONDITION:
+           <
+               EQ-EXPRESSION
+           >.
+SYNTAX.
+    Start = CALC-PROGRAM.
+
+    IDENTIFIER ::= calc-object => identifier;
+
+    INTEGER ::= calc-object => integer;
+
+    EQ-EXPRESSION ::= calc-object => CALC-OBJECT "=" calc-object => CALC-OBJECT;
+
+    CALC-PROGRAM ::= "select"  [ columns => identifier ] + "," "from" [ tables => identifier ] + ","  "where" condition => CONDITION;

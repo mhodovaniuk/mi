@@ -11,7 +11,8 @@ object ProjectFactory {
     val ast=MIParser.parseConfigFile(miConfigFileName)
     val miConfig=FileUtils.readFileContent(miConfigFileName)
     val sourceCode=FileUtils.readFileContent(sourceCodeFileName)
-    val st=ast.build(SourceCodeLexemeReader.createSourceCodeLexemeReaderFromSourceCodeFile(sourceCodeFileName,lexer))
-    new Project(lexer,sourceCode,miConfig,ast,st)
+    val sclr = SourceCodeLexemeReader.createSourceCodeLexemeReaderFromSourceCodeFile(sourceCodeFileName,lexer)
+    val st=ast.build(sclr)
+    new Project(lexer,sclr,sourceCode,miConfig,ast,st)
   }
 }

@@ -1,4 +1,4 @@
-package ua.knu.mi.utils
+package ua.knu.common
 
 import java.io.{ByteArrayInputStream, ObjectInputStream, ObjectOutputStream, ByteArrayOutputStream}
 import ua.knu.mi.ast.AST

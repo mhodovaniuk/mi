@@ -2,7 +2,7 @@
     "case-sensitive":false,
     "ignore":["whitespace"],
     "keywords": ["select", "where", "from", "group by", "having","null"],
-    "error":{
+    "error": {
         "class-name":"error",
         "recovery-classes":["whitespace","separator"]
     },
@@ -25,7 +25,11 @@
         },
         {
             "class":"separator",
-            "pattern":">=|<=|,"
+            "pattern":";|,"
+        },
+        {
+            "class":"operations",
+            "pattern":"="
         }
     ]
 }

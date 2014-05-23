@@ -15,8 +15,8 @@ object RuleUtils {
         case item: OrARI => altList += tmpList.toList; tmpList = new ArrayBuffer[ARuleItem]()
         case item => tmpList += item
       }
-
     }
+    altList += tmpList.toList
     altList.toList
   }
 

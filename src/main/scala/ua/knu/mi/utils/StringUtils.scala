@@ -5,7 +5,7 @@ object StringUtils {
   val integer = "[0-9]+"
   val boolean = "true|false"
   val identifier = "[A-Za-z_]+[A-Za-z_0-9-]*"
-  val token = "\"[a-zA-Z0-9_ :=><,.+-/*();!&?)(\"\n\t]*\""
+  val token = "\"[a-zA-Z0-9_ :=><,.+-/*();!&?\n\t]*\""
 
   def removeBracketsAroundString(str:String)={
     if (str.length<2)

@@ -3,19 +3,19 @@ package ua.knu.mi
 import ua.knu.mi.ast.inheritance._
 import ua.knu.mi.ast.syntax._
 import utils._
-import scala.io.Source
 import ua.knu.mi.ast.{AProgram, AST}
 import scala.util.parsing.combinator.RegexParsers
 import ua.knu.mi.ast.syntax.QuantifierType.QuantifierType
 import ua.knu.mi.ast.syntax.QuantifierType
+import ua.knu.common.utils.FileUtils
+import com.typesafe.scalalogging.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 object MIParser {
   val parser: Parser = new Parser()
-
+  val logger = Logger (LoggerFactory getLogger "MIParser")
   def parseConfigFile(configFileName: String): AST = {
-    val source = Source.fromFile(configFileName)
-    val grammar = source.mkString("\n")
-    parseConfig(grammar)
+    parseConfig(FileUtils.readFileContent(configFileName))
   }
 
   def parseConfig(config: String): AST = {
@@ -31,11 +31,13 @@ object MIParser {
     val syntax: Parser[String] = "SYNTAX.".r
     val start: Parser[String] = "Start".r
     val token: Parser[String] = StringUtils.token.r
-    val or: Parser[String] = "|".r
+    val or: Parser[String] = "[|]".r
 
     def PROGRAM: Parser[AProgram] = {
       inheritance ~ INHERITANCE ~ syntax ~ SYNTAX ^^ {
-        case _ ~ i ~ _ ~ s => AProgram(i, s)
+        case _ ~ i ~ _ ~ s => {
+          AProgram(i, s)
+        }
       } | inheritance ~ INHERITANCE ^^ {
         case _ ~ i => new AProgram(i)
       }
@@ -43,7 +45,10 @@ object MIParser {
 
     def INHERITANCE: Parser[AInheritance] = {
       rep1(TYPE_DECLARATION ~ ".") ^^ {
-        case typeDeclaration => AInheritance(typeDeclaration.map(_._1))
+        case typeDeclaration => {
+          logger.debug(typeDeclaration.size.toString)
+          AInheritance(typeDeclaration.map(_._1))
+        }
       }
     }
 

@@ -17,7 +17,7 @@ case class QuantifierARI(quantifier: QuantifierType, rhLists: List[List[ARuleIte
         Some(TokenRI(lexeme.value, lexeme))
       } else None
     }
-
+//TODO:return some case class, not array
     val res = new ArrayBuffer[RuleItem]()
     RuleUtils.build(rhLists, lexemes, ast) match {
       case Some(arr) => res ++= arr
@@ -45,11 +45,10 @@ case class QuantifierARI(quantifier: QuantifierType, rhLists: List[List[ARuleIte
     val startOffset = lexemes.offset
     buildRIList(lexemes, ast) match {
       case Some(ruleItems) =>
-        var isCorrect = false
-        quantifier match {
-          case QuantifierType.ONE_OR_ZERO => isCorrect = if (ruleItems.size <= 1) true else false
-          case QuantifierType.AT_LEAST_ONE => isCorrect = if (ruleItems.size >= 1) true else false
-          case _ => isCorrect = true
+        val isCorrect = quantifier match {
+          case QuantifierType.ONE_OR_ZERO => ruleItems.size <= 1
+          case QuantifierType.AT_LEAST_ONE => ruleItems.size >= 1
+          case _ => true
         }
         if (isCorrect)
           Some(RISequence(ruleItems))

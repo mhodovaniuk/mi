@@ -5,8 +5,8 @@ import scala.collection.mutable.ArrayBuffer
 class SourceCodeLexemeReader(val sourceCode: String, val lexer:Lexer) {
 
   val allLexemes: ArrayBuffer[Lexeme] = lexer.parse(sourceCode)
-  val lexemes = allLexemes.filter(l => lexer.ignoreClasses.contains(l.className))
-  var offset = 0
+  val lexemes = allLexemes.filter(l => !lexer.ignoreClasses.contains(l.className))
+  var offset = -1
 
   def hasNext: Boolean = offset != lexemes.length
   private def checkOffset(offset:Int) {
