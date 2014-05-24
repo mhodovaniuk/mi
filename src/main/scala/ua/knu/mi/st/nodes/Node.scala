@@ -1,9 +1,14 @@
 package ua.knu.mi.st.nodes
 
 import scala.collection.mutable
+import ua.knu.mi.lexer.Lexeme
 
 trait Node {
   val attributes=mutable.HashMap[String,Any]()
+  def visibleAttributes = attributes.filter(p=>{!Node.IGNORE_ATTRIBUTES.contains(p._1)})
+  def lexemesRange:(Lexeme,Lexeme)=(firstLexeme,lastLexeme)
+  def firstLexeme:Lexeme
+  def lastLexeme:Lexeme
 }
 
 object Node{

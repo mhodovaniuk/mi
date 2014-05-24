@@ -11,9 +11,9 @@ case class AttributeAN(key: String, value: String) extends ANode {
   def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[List[Node]] = {
     if (lexemes.hasNext) {
       if (ast.types.isSubtypeOf(lexemes.tryNextLexeme().className, value)) {
-        SomeList(new AttributeNode(key, value, lexemes.nextLexeme()))
+        return SomeList(new AttributeNode(key, value, lexemes.nextLexeme()))
       } else {
-        RuleUtils.buildFromComplex(lexemes, ast, ast.getRules(key, value)) match {
+        return RuleUtils.buildFromComplex(lexemes, ast, ast.getRules(key, value)) match {
           case Some(ruleItem) => Some(List(ruleItem))
           case _ => None
         }

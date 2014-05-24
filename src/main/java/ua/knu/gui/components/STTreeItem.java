@@ -1,4 +1,4 @@
-package ua.knu.gui.st;
+package ua.knu.gui.components;
 
 import javafx.scene.control.TreeItem;
 import ua.knu.mi.st.nodes.Node;

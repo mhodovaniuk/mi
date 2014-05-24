@@ -11,10 +11,11 @@ case class ASyntax(startRuleName: String, rules: List[RuleAN]) {
   def build(lexemes: SourceCodeLexemeReader, ast: AST): Node = {
     ast.findRule(startRuleName) match {
       case Some(startRule) => {
-        val tmp=startRule.build(lexemes, ast)
-        tmp.get(0)
+        startRule.build(lexemes, ast) match {
+          case Some(l)=>l(0)
+          case None => throw new ParseException("Can't build syntax tree")
+        }
       }
-
       case _ => throw new ParseException("Can't find start rule.")
     }
   }

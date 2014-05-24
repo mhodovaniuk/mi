@@ -104,6 +104,7 @@ class Lexer(configFileName: String) {
   }
 
   def parse(sourceCode: StringOps): ArrayBuffer[Lexeme] = {
+    var lexemeId=0
     var sc=sourceCode
     val lexemes = new ArrayBuffer[Lexeme]
     while (sc.length != 0) {
@@ -111,6 +112,8 @@ class Lexer(configFileName: String) {
         case Some(l) => l
         case None => nextError(sc)
       }
+      lexemeId+=1
+      lex.id=lexemeId
       lexemes += lex
       sc=sc.drop(lex.value.length)
     }

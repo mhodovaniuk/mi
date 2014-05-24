@@ -13,9 +13,12 @@ public class MainJavaFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("/mainWindow.fxml"));
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/mainWindow.fxml"));
         Parent root = loader.load();
-        primaryStage.setScene(new Scene(root));
+        Scene rootScene = new Scene(root);
+        rootScene.getStylesheets().add("/css/textFlow.css");
+        primaryStage.setTitle("MI Studio");
+        primaryStage.setScene(rootScene);
         primaryStage.show();
     }
 }

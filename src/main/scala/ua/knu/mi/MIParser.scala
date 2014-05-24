@@ -8,12 +8,9 @@ import scala.util.parsing.combinator.RegexParsers
 import ua.knu.mi.ast.syntax.QuantifierType.QuantifierType
 import ua.knu.mi.ast.syntax.QuantifierType
 import ua.knu.common.utils.FileUtils
-import com.typesafe.scalalogging.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 object MIParser {
   val parser: Parser = new Parser()
-  val logger = Logger (LoggerFactory getLogger "MIParser")
   def parseConfigFile(configFileName: String): AST = {
     parseConfig(FileUtils.readFileContent(configFileName))
   }
@@ -46,7 +43,6 @@ object MIParser {
     def INHERITANCE: Parser[AInheritance] = {
       rep1(TYPE_DECLARATION ~ ".") ^^ {
         case typeDeclaration => {
-          logger.debug(typeDeclaration.size.toString)
           AInheritance(typeDeclaration.map(_._1))
         }
       }

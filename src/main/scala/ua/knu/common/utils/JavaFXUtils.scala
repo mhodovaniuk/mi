@@ -2,7 +2,11 @@ package ua.knu.common.utils
 
 import ua.knu.studio.Project
 import javafx.scene.control.TreeItem
+import javafx.scene.text.Text
 import ua.knu.mi.st.nodes.{RuleNode, Node}
+import ua.knu.gui.components.LexemeText
+import java.util
+import scala.util
 
 object JavaFXUtils {
   def getProjectAsFXTree(project:Project):TreeItem[Node]={
@@ -21,5 +25,14 @@ object JavaFXUtils {
       case Some(root:Node) => processRuleItem(root)
       case None => null
     }
+  }
+
+  def getLexemesAsFXText(project:Project):java.util.List[LexemeText] = {
+    val res=new java.util.ArrayList[LexemeText]()
+    for (lexeme<-project.sclr.allLexemes){
+
+        res.add(new LexemeText(lexeme))
+    }
+    res
   }
 }

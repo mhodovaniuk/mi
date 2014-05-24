@@ -9,4 +9,8 @@ trait SimpleNode extends Node{
   def className=lexeme.className
   def textValue=lexeme.value
   override def toString: String = lexeme.toString
+
+  override def firstLexeme: Lexeme = lexeme
+
+  override def lastLexeme: Lexeme = lexeme
 }

@@ -3,7 +3,6 @@ package ua.knu.studio
 import ua.knu.mi.lexer.{SourceCodeLexemeReader, Lexer}
 import ua.knu.mi.MIParser
 import ua.knu.common.utils.FileUtils
-import ua.knu.studio.Project
 
 object ProjectFactory {
   def createProject(lexerConfigFileName:String,miConfigFileName:String,sourceCodeFileName:String):Project= {

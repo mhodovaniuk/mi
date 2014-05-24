@@ -14,4 +14,4 @@ SYNTAX.
 
     EQ-EXPRESSION ::= calc-object => CALC-OBJECT "=" calc-object => CALC-OBJECT;
 
-    CALC-PROGRAM ::= "select"  [ columns => identifier ] + "," "from" [ tables => identifier ] + ","  "where" condition => CONDITION;
+    CALC-PROGRAM ::= "select"  [ columns => identifier | "*"] + "," "from" [ tables => identifier] + ","  "where" condition => CONDITION;

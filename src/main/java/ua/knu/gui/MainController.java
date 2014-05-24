@@ -15,9 +15,12 @@ import javafx.util.Callback;
 import scala.Tuple2;
 import scala.collection.Iterator;
 import ua.knu.common.utils.JavaFXUtils;
+import ua.knu.gui.components.LexemeText;
 import ua.knu.gui.dialogs.newp.NewProject;
 import ua.knu.gui.dialogs.openp.OpenProject;
+import ua.knu.mi.lexer.Lexeme;
 import ua.knu.mi.st.nodes.Node;
+import ua.knu.mi.st.nodes.Node$;
 import ua.knu.studio.Project;
 import scala.collection.mutable.HashMap;
 import ua.knu.studio.ProjectFactory;
@@ -52,6 +55,8 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        attributeColumn.prefWidthProperty().bind(attributesTableView.widthProperty().multiply(0.5));
+        valueColumn.prefWidthProperty().bind(attributesTableView.widthProperty().multiply(0.5));
         syntaxTreeView.setOnMouseClicked(getSyntaxTreeMouseHandler());
         syntaxTreeView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -82,7 +87,8 @@ public class MainController implements Initializable {
         this.project=project;
         syntaxTreeView.setRoot(JavaFXUtils.getProjectAsFXTree(project));
         //TODO:optimize higlighting
-
+        editor.getChildren().clear();
+        editor.getChildren().addAll(JavaFXUtils.getLexemesAsFXText(project));
     }
 
     public void onOpenProjectClick(ActionEvent actionEvent) {
@@ -94,10 +100,22 @@ public class MainController implements Initializable {
         return new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event) {
-                Node selectedItem =((TreeItem<Node>) ((TreeView) event.getSource()).getSelectionModel().getSelectedItem()).getValue();
-
+                TreeItem<Node> selectedItem = (TreeItem<Node>) ((TreeView) event.getSource()).getSelectionModel().getSelectedItem();
+                if (selectedItem!=null) {
+                    Node selectedNode = selectedItem.getValue();
+                    updateAttributeTable(selectedNode.visibleAttributes());
+                    updateEditor(selectedNode);
+                }
             }
         };
+    }
+
+    private void updateEditor(Node selectedItem) {
+        int first = selectedItem.firstLexeme().id();
+        int last = selectedItem.lastLexeme().id();
+        for (javafx.scene.Node node : editor.getChildren()) {
+            ((LexemeText)node).updateWithSelectionRange(first,last);
+        }
     }
 
     private void updateAttributeTable(HashMap<String,Object> attributes) {

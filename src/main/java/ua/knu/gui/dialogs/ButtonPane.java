@@ -3,13 +3,10 @@ package ua.knu.gui.dialogs;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class ButtonPane extends AnchorPane {
     @FXML
@@ -19,7 +16,7 @@ public class ButtonPane extends AnchorPane {
     private CommonDialogController dialogController;
 
     public ButtonPane() {
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("/dialogs/buttonPane.fxml"));
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("/fxml/dialogs/buttonPane.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

@@ -1,0 +1,12 @@
+.keyword {
+    -fx-fill: #69005a;
+   }
+
+.lexeme{
+    -fx-font-size: 20;
+}
+
+.selected {
+    -fx-font-weight: bolder;
+    -fx-underline: true;
+}
