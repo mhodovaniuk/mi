@@ -83,48 +83,48 @@ object MIParser {
       }
     }
 
-    def RULE: Parser[RuleARI] = {
+    def RULE: Parser[RuleAN] = {
       identifier ~ "::=" ~ RI_LIST ~ ";" ^^ {
-        case ruleName ~ _ ~ riList ~ _ => RuleARI(ruleName, RuleUtils.splitRuleOnAltRules(riList))
+        case ruleName ~ _ ~ riList ~ _ => RuleAN(ruleName, RuleUtils.splitRuleOnAltRules(riList))
       }
     }
 
-    def RI_LIST: Parser[List[ARuleItem]] = {
+    def RI_LIST: Parser[List[ANode]] = {
       rep1(RULE_ITEM)
     }
 
-    def RULE_ITEM: Parser[ARuleItem] = {
+    def RULE_ITEM: Parser[ANode] = {
       or ^^ {
-        case orToken => new OrARI()
+        case orToken => new OrAN()
       } |
         ATTRIBUTE |
         CONSTR |
         identifier ^^ {
-          IdentifierARI
+          IdentifierAN
         } |
         integer ^^ {
-          case integerNumber => NumberARI(integerNumber.toInt)
+          case integerNumber => NumberAN(integerNumber.toInt)
         } |
         real ^^ {
-          case realNumber => NumberARI(realNumber.toDouble)
+          case realNumber => NumberAN(realNumber.toDouble)
         } |
         boolean ^^ {
-          case boolVal => BooleanARI(boolVal.toBoolean)
+          case boolVal => BooleanAN(boolVal.toBoolean)
         } |
         token ^^ {
-          case tokenStr => TokenARI(StringUtils.removeBracketsAroundString(tokenStr))
+          case tokenStr => TokenAN(StringUtils.removeBracketsAroundString(tokenStr))
         }
     }
 
-    def ATTRIBUTE: Parser[AttributeARI] = {
+    def ATTRIBUTE: Parser[AttributeAN] = {
       identifier ~ "=>" ~ identifier ^^ {
-        case key ~ _ ~ value => AttributeARI(key, value)
+        case key ~ _ ~ value => AttributeAN(key, value)
       }
     }
 
-    def CONSTR: Parser[QuantifierARI] = {
+    def CONSTR: Parser[QuantifierAN] = {
       "[" ~ RI_LIST ~ "]" ~ QUANTIFIER ~ token ^^ {
-        case _ ~ rhList ~ _ ~ quantifier ~ separator => QuantifierARI(
+        case _ ~ rhList ~ _ ~ quantifier ~ separator => QuantifierAN(
           quantifier, RuleUtils.splitRuleOnAltRules(rhList), StringUtils.removeBracketsAroundString(separator)
         )
       }

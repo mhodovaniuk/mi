@@ -33,13 +33,13 @@
       </MenuBar>
    </top>
    <center>
-      <SplitPane dividerPositions="0.19863597612958228" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.43137254901960786" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ScrollPane prefViewportHeight="677.0" prefViewportWidth="229.0">
+                  <ScrollPane prefHeight="679.0" prefViewportHeight="677.0" prefViewportWidth="229.0" prefWidth="466.0">
                      <content>
-                        <TreeView fx:id="syntaxTreeView" layoutX="15.0" layoutY="198.0" prefHeight="677.0" prefWidth="229.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TreeView fx:id="syntaxTreeView" layoutX="15.0" layoutY="198.0" prefHeight="677.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </content>
                   </ScrollPane>
                </children>
@@ -63,8 +63,8 @@
                                  <content>
                                     <TableView fx:id="attributesTableView" layoutX="21.0" layoutY="120.0" prefHeight="675.0" prefWidth="241.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columns>
-                                        <TableColumn prefWidth="117.0" text="Attribute" fx:id="attributeColumn"/>
-                                        <TableColumn prefWidth="115.0" text="Value" fx:id="valueColumn" />
+                                        <TableColumn fx:id="attributeColumn" prefWidth="117.0" text="Attribute" />
+                                        <TableColumn fx:id="valueColumn" prefWidth="115.0" text="Value" />
                                       </columns>
                                     </TableView>
                                  </content>

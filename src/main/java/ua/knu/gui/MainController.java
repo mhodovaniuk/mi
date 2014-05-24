@@ -2,9 +2,7 @@ package ua.knu.gui;
 
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,33 +10,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Window;
 import javafx.util.Callback;
 import scala.Tuple2;
 import scala.collection.Iterator;
-import scala.math.Ordering;
-import scala.util.parsing.combinator.testing.Str;
 import ua.knu.common.utils.JavaFXUtils;
 import ua.knu.gui.dialogs.newp.NewProject;
 import ua.knu.gui.dialogs.openp.OpenProject;
-import ua.knu.gui.project.ProjectController;
-import ua.knu.mi.lexer.Lexeme;
-import ua.knu.mi.lexer.SourceCodeLexemeReader;
-import ua.knu.mi.st.ST;
-import ua.knu.mi.st.rules.RuleItem;
-import ua.knu.mi.utils.StringUtils;
+import ua.knu.mi.st.nodes.Node;
 import ua.knu.studio.Project;
 import scala.collection.mutable.HashMap;
 import ua.knu.studio.ProjectFactory;
 
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
-
-import static javafx.scene.control.TreeTableColumn.CellDataFeatures;
 
 public class MainController implements Initializable {
     @FXML
@@ -46,7 +31,7 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<Tuple2<String,Object>,String> attributeColumn;
     @FXML
-    private TreeView<RuleItem> syntaxTreeView;
+    private TreeView<Node> syntaxTreeView;
     @FXML
     private TableView<Tuple2<String,Object>> attributesTableView;
     @FXML
@@ -109,7 +94,7 @@ public class MainController implements Initializable {
         return new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event) {
-                RuleItem selectedItem =((TreeItem<RuleItem>) ((TreeView) event.getSource()).getSelectionModel().getSelectedItem()).getValue();
+                Node selectedItem =((TreeItem<Node>) ((TreeView) event.getSource()).getSelectionModel().getSelectedItem()).getValue();
 
             }
         };

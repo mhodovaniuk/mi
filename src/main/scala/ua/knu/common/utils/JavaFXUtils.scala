@@ -2,27 +2,23 @@ package ua.knu.common.utils
 
 import ua.knu.studio.Project
 import javafx.scene.control.TreeItem
-import ua.knu.mi.st.rules.{RuleRI, RISequence, RuleItem}
+import ua.knu.mi.st.nodes.{RuleNode, Node}
 
 object JavaFXUtils {
-  def getProjectAsFXTree(project:Project):TreeItem[RuleItem]={
-    def processRuleItem(ruleItem:RuleItem):TreeItem[RuleItem]={
+  def getProjectAsFXTree(project:Project):TreeItem[Node]={
+    def processRuleItem(ruleItem:Node):TreeItem[Node]={
       ruleItem match {
-        case ri:RISequence => {
-          val node=new TreeItem[RuleItem](ri)
-          ri.ruleItems.foreach(item=>node.getChildren.add(processRuleItem(item)))
+        case ri:RuleNode => {
+          val node=new TreeItem[Node](ri)
+          ri.nodes
+          ri.nodes.foreach(item=>node.getChildren.add(processRuleItem(item)))
           node
         }
-        case ri:RuleRI => {
-          val node=new TreeItem[RuleItem](ri)
-          ri.rules.foreach(item=>node.getChildren.add(processRuleItem(item)))
-          node
-        }
-        case ri:RuleItem => new TreeItem[RuleItem](ri)
+        case ri:Node => new TreeItem[Node](ri)
       }
     }
     project.st.root match {
-      case Some(root) => processRuleItem(root)
+      case Some(root:Node) => processRuleItem(root)
       case None => null
     }
   }

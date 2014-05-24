@@ -1,8 +1,8 @@
 INHERITANCE.
     CALC-OBJECT:
         <
-            IDENTIFIER;
-            INTEGER
+            identifier;
+            integer
         >.
 
     CONDITION:
@@ -11,10 +11,6 @@ INHERITANCE.
            >.
 SYNTAX.
     Start = CALC-PROGRAM.
-
-    IDENTIFIER ::= calc-object => identifier;
-
-    INTEGER ::= calc-object => integer;
 
     EQ-EXPRESSION ::= calc-object => CALC-OBJECT "=" calc-object => CALC-OBJECT;
 

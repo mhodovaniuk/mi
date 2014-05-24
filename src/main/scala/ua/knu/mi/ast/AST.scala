@@ -2,13 +2,13 @@ package ua.knu.mi.ast
 
 import ua.knu.mi.lexer.{SourceCodeLexemeReader, Lexer}
 import scala.collection.mutable
-import ua.knu.mi.ast.syntax.RuleARI
+import ua.knu.mi.ast.syntax.RuleAN
 import ua.knu.mi.st.ST
 
 class AST(val root: AProgram) extends Serializable {
   var st:ST=null
   val primitiveTypes=List("string", "identifier", "integer")
-  val rules=new mutable.HashMap[String,RuleARI]()
+  val rules=new mutable.HashMap[String,RuleAN]()
   root.syntax match {
     case Some(s)=>{
       for (rule<-s.rules)
@@ -24,7 +24,7 @@ class AST(val root: AProgram) extends Serializable {
     st
   }
 
-  def findRule(ruleName: String):Option[RuleARI] = {
+  def findRule(ruleName: String):Option[RuleAN] = {
     rules.get(ruleName)
   }
 
@@ -32,8 +32,9 @@ class AST(val root: AProgram) extends Serializable {
     primitiveTypes.contains(typeName)
   }
 
-  def getRules(ruleName: String): List[RuleARI] = {
-    types.typesHierarchy(ruleName).map(t=>rules(t.name)).toList
+  def getRules(itemName:String,ruleName: String): List[RuleAN] = {
+    types.typesHierarchy(ruleName).map(t => rules.get(t.name))
+      .filter { case None => false; case _ => true}.map(_.get).toList
   }
 
   override def toString: String = root.toString

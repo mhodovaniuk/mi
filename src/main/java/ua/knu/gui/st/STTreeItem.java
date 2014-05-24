@@ -1,11 +1,10 @@
 package ua.knu.gui.st;
 
 import javafx.scene.control.TreeItem;
-import ua.knu.mi.st.Program;
-import ua.knu.mi.st.rules.RuleItem;
+import ua.knu.mi.st.nodes.Node;
 
 public class STTreeItem extends TreeItem<String> {
-    public STTreeItem(RuleItem ruleItem) {
+    public STTreeItem(Node node) {
 
     }
 

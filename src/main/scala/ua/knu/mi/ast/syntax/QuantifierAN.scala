@@ -3,23 +3,23 @@ package ua.knu.mi.ast.syntax
 import ua.knu.mi.lexer.SourceCodeLexemeReader
 import ua.knu.mi.ast.AST
 import scala.collection.mutable.ArrayBuffer
-import ua.knu.mi.st.rules._
+import ua.knu.mi.st.nodes._
 import ua.knu.mi.utils.RuleUtils
 import ua.knu.mi.ast.syntax.QuantifierType.QuantifierType
 
-case class QuantifierARI(quantifier: QuantifierType, rhLists: List[List[ARuleItem]], separator: String) extends ARuleItem {
+case class QuantifierAN(quantifier: QuantifierType, rhLists: List[List[ANode]], separator: String) extends ANode {
   override def toString: String = "[" + rhLists.mkString(" ") + "]" + QuantifierType.toString(quantifier) + "\"" + separator + "\""
 
-  private def buildRIList(lexemes: SourceCodeLexemeReader, ast: AST): Option[List[RuleItem]] = {
-    def readSeparator(): Option[RuleItem] = {
+  private def buildRIList(lexemes: SourceCodeLexemeReader, ast: AST): Option[List[Node]] = {
+    def readSeparator(): Option[Node] = {
       if (lexemes.hasNext && lexemes.tryNextLexeme().value == separator) {
         val lexeme = lexemes.nextLexeme()
-        Some(TokenRI(lexeme.value, lexeme))
+        Some(new TokenNode(lexeme))
       } else None
     }
 //TODO:return some case class, not array
-    val res = new ArrayBuffer[RuleItem]()
-    RuleUtils.build(rhLists, lexemes, ast) match {
+    val res = new ArrayBuffer[Node]()
+    RuleUtils.buildFromAlternativesList(rhLists, lexemes, ast) match {
       case Some(arr) => res ++= arr
       case None => return None
     }
@@ -27,7 +27,7 @@ case class QuantifierARI(quantifier: QuantifierType, rhLists: List[List[ARuleIte
     while (true) {
       readSeparator() match {
         case Some(ruleItem) =>
-          RuleUtils.build(rhLists, lexemes, ast) match {
+          RuleUtils.buildFromAlternativesList(rhLists, lexemes, ast) match {
             case Some(arr) =>
               res += ruleItem
               res ++= arr
@@ -41,7 +41,7 @@ case class QuantifierARI(quantifier: QuantifierType, rhLists: List[List[ARuleIte
     Some(res.toList)
   }
 
-  override def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[RuleItem] = {
+  override def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[List[Node]] = {
     val startOffset = lexemes.offset
     buildRIList(lexemes, ast) match {
       case Some(ruleItems) =>
@@ -51,7 +51,7 @@ case class QuantifierARI(quantifier: QuantifierType, rhLists: List[List[ARuleIte
           case _ => true
         }
         if (isCorrect)
-          Some(RISequence(ruleItems))
+          Some(ruleItems)
         else {
           lexemes.offset = startOffset
           None

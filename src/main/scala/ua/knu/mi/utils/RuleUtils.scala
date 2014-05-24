@@ -4,15 +4,15 @@ import ua.knu.mi.ast.syntax._
 import scala.collection.mutable.ArrayBuffer
 import ua.knu.mi.ast._
 import ua.knu.mi.lexer.SourceCodeLexemeReader
-import ua.knu.mi.st.rules._
+import ua.knu.mi.st.nodes._
 
 object RuleUtils {
-  def splitRuleOnAltRules(rule: List[ARuleItem]): List[List[ARuleItem]] = {
-    val altList = new ArrayBuffer[List[ARuleItem]]()
-    var tmpList = new ArrayBuffer[ARuleItem]()
+  def splitRuleOnAltRules(rule: List[ANode]): List[List[ANode]] = {
+    val altList = new ArrayBuffer[List[ANode]]()
+    var tmpList = new ArrayBuffer[ANode]()
     for (ruleItem <- rule) {
       ruleItem match {
-        case item: OrARI => altList += tmpList.toList; tmpList = new ArrayBuffer[ARuleItem]()
+        case item: OrAN => altList += tmpList.toList; tmpList = new ArrayBuffer[ANode]()
         case item => tmpList += item
       }
     }
@@ -20,39 +20,39 @@ object RuleUtils {
     altList.toList
   }
 
-  def build(rhLists: List[List[ARuleItem]],lexemes: SourceCodeLexemeReader, ast: AST): Option[List[RuleItem]]={
-    for (alternatives <- rhLists) {
+  def buildFromAlternativesList(alternativesLists: List[List[ANode]], lexemes: SourceCodeLexemeReader, ast: AST): Option[List[Node]] = {
+    for (alternatives <- alternativesLists) {
       val currOffset = lexemes.offset
-      val res = new ArrayBuffer[Option[RuleItem]]()
+      val res = new ArrayBuffer[Node]()
       var i = 0
-      var isExistNone=false
+      var isExistNone = false
       while (!isExistNone && i < alternatives.size) {
-        res += alternatives(i).build(lexemes, ast)
+        val lastNodes = alternatives(i).build(lexemes, ast)
         i += 1
-        isExistNone=res.last match {
-          case None => true
-          case _ => false
+        isExistNone = lastNodes match {
+          case Some(l) => res ++= l; false
+          case _ => true
         }
       }
       if (!isExistNone)
-        return Some(res.map(_.get).toList)
+        return Some(res.toList)
       else
         lexemes.offset = currOffset
     }
     None
   }
 
-  def build(lexemes: SourceCodeLexemeReader, ast: AST, rule: RuleARI): Option[RuleRI] = {
-    build(rule.riLists,lexemes,ast) match {
-      case Some(ruleItems)=>Some(RuleRI(rule.name,ruleItems))
+  def buildFromRule(lexemes: SourceCodeLexemeReader, ast: AST, rule: RuleAN): Option[RuleNode] = {
+    buildFromAlternativesList(rule.riLists, lexemes, ast) match {
+      case Some(ruleItems) => Some(new RuleNode(rule.name, ruleItems))
       case _ => None
     }
   }
 
-  def build(lexemes: SourceCodeLexemeReader, ast: AST, rules: List[RuleARI]): Option[RuleRI] = {
-    for (rule<-rules){
-      build(lexemes,ast,rule) match {
-        case Some(ruleItem) =>return Some(ruleItem)
+  def buildFromComplex(lexemes: SourceCodeLexemeReader, ast: AST, rules: List[RuleAN]): Option[Node] = {
+    for (rule <- rules) {
+      buildFromRule(lexemes, ast, rule) match {
+        case Some(ruleItem) => return Some(ruleItem)
         case _ =>
       }
     }

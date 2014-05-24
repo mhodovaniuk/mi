@@ -1,16 +1,17 @@
 package ua.knu.mi.ast.syntax
 
 import ua.knu.mi.lexer.{Lexeme, SourceCodeLexemeReader}
-import ua.knu.mi.st.rules._
+import ua.knu.mi.st.nodes._
 import ua.knu.mi.ast.AST
+import ua.knu.mi.utils.SomeList
 
-case class NumberARI(number: Number) extends ARuleItem {
+case class NumberAN(number: Number) extends ANode {
   override def toString: String = number.toString
 
 
-  override def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[RuleItem] = {
+  override def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[List[Node]] = {
     if (lexemes.hasNext && lexemes.tryNextLexeme().value == number.toString)
-      Some(NumberRI(number, lexemes.nextLexeme()))
+      SomeList(new NumberNode(number, lexemes.nextLexeme()))
     else None
   }
 }
