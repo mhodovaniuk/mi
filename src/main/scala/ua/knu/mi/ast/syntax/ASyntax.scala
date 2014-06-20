@@ -12,7 +12,7 @@ case class ASyntax(startRuleName: String, rules: List[RuleAN]) {
     ast.findRule(startRuleName) match {
       case Some(startRule) => {
         startRule.build(lexemes, ast) match {
-          case Some(l)=>l(0)
+          case Some(l)=>l
           case None => throw new ParseException("Can't build syntax tree")
         }
       }

@@ -8,9 +8,9 @@ import ua.knu.mi.utils.SomeList
 case class BooleanAN(boolVal: Boolean) extends ANode {
   override def toString: String = boolVal.toString
 
-  override def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[List[Node]] = {
+  override def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[Node] = {
     if (lexemes.hasNext && lexemes.tryNextLexeme().value == boolVal.toString)
-      SomeList(new BooleanNode(lexemes.nextLexeme()))
+      Some(new BooleanNode(lexemes.nextLexeme()))
     else None
   }
 }

@@ -30,7 +30,7 @@ object RuleUtils {
         val lastNodes = alternatives(i).build(lexemes, ast)
         i += 1
         isExistNone = lastNodes match {
-          case Some(l) => res ++= l; false
+          case Some(l) => res += l; false
           case _ => true
         }
       }
@@ -49,7 +49,7 @@ object RuleUtils {
     }
   }
 
-  def buildFromComplex(lexemes: SourceCodeLexemeReader, ast: AST, rules: List[RuleAN]): Option[Node] = {
+  def buildFromSubClasses(lexemes: SourceCodeLexemeReader, ast: AST, rules: List[RuleAN]): Option[Node] = {
     for (rule <- rules) {
       buildFromRule(lexemes, ast, rule) match {
         case Some(ruleItem) => return Some(ruleItem)

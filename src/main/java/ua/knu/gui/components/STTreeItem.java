@@ -7,6 +7,4 @@ public class STTreeItem extends TreeItem<String> {
     public STTreeItem(Node node) {
 
     }
-
-
 }

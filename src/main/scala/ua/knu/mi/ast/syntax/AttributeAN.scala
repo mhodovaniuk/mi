@@ -8,13 +8,13 @@ import ua.knu.mi.st.nodes._
 case class AttributeAN(key: String, value: String) extends ANode {
   override def toString: String = key + " => " + value
 
-  def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[List[Node]] = {
+  def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[Node] = {
     if (lexemes.hasNext) {
       if (ast.types.isSubtypeOf(lexemes.tryNextLexeme().className, value)) {
-        return SomeList(new AttributeNode(key, value, lexemes.nextLexeme()))
+        return Some(new AttributeNode(key, value, lexemes.nextLexeme()))
       } else {
-        return RuleUtils.buildFromComplex(lexemes, ast, ast.getRules(key, value)) match {
-          case Some(ruleItem) => Some(List(ruleItem))
+        return RuleUtils.buildFromSubClasses(lexemes, ast, ast.getRules(key, value)) match {
+          case Some(ruleItem) => Some(ruleItem)
           case _ => None
         }
       }

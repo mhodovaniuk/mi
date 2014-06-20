@@ -5,5 +5,5 @@ import ua.knu.mi.ast.AST
 import ua.knu.mi.st.nodes._
 
 trait ANode {
-  def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[List[Node]]
+  def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[Node]
 }

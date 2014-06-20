@@ -9,9 +9,9 @@ case class NumberAN(number: Number) extends ANode {
   override def toString: String = number.toString
 
 
-  override def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[List[Node]] = {
+  override def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[Node] = {
     if (lexemes.hasNext && lexemes.tryNextLexeme().value == number.toString)
-      SomeList(new NumberNode(number, lexemes.nextLexeme()))
+      Some(new NumberNode(number, lexemes.nextLexeme()))
     else None
   }
 }

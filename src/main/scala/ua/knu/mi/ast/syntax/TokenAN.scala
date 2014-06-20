@@ -8,10 +8,10 @@ import ua.knu.mi.utils.SomeList
 case class TokenAN(token: String) extends ANode {
   override def toString: String = "\"" + token + "\""
 
-  override def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[List[Node]] = {
+  override def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[Node] = {
     if (lexemes.hasNext && lexemes.tryNextLexeme().value == token) {
       val lexeme = lexemes.nextLexeme()
-      SomeList(new TokenNode(lexeme))
+      Some(new TokenNode(lexeme))
     } else None
   }
 }

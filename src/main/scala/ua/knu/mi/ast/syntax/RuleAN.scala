@@ -8,9 +8,9 @@ import ua.knu.mi.utils.{SomeList, RuleUtils}
 case class RuleAN(name: String, riLists: List[List[ANode]]) extends ANode{
   override def toString: String = name + "::=" + riLists.mkString(" ")
 
-  override def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[List[RuleNode]] = {
+  override def build(lexemes: SourceCodeLexemeReader, ast: AST): Option[RuleNode] = {
     RuleUtils.buildFromRule(lexemes, ast, this) match {
-      case Some(rule) => SomeList(rule)
+      case Some(rule) => Some(rule)
       case _ => None
     }
   }
