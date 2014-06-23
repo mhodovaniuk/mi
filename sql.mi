@@ -1,0 +1,38 @@
+INHERITANCE.
+    
+  SQL-PROGRAM:
+    <
+        SELECT
+    >.
+
+  ATTRIBUTES:
+    <
+        identifier
+    >.
+
+  FROM:
+    <
+        TABLE
+    >.
+
+  EXPRESSION:
+    <
+        IN-EXPRESSION;
+        EQ-EXPRESSION
+    >.
+
+
+SYNTAX.
+    Start = SELECT.
+
+    SELECT ::= "select" [ attributes => ATTRIBUTES ] + ","
+               "from" [ tables =>  FROM ]+ ","
+                "where" condition => EXPRESSION ;
+
+    COLUMN ::= [ table-name => identifier "." ] ! column-name => identifier;
+
+    TABLE ::= name => identifier;
+
+    IN-EXPRESSION ::= attribute => identifier "in" "(" select => SELECT ")";
+
+    EQ-EXPRESSION ::= attribute => identifier "=" value => string;

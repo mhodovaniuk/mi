@@ -7,15 +7,19 @@ import ua.knu.mi.st.nodes._
 import ua.knu.mi.utils.RuleUtils
 import ua.knu.mi.ast.syntax.QuantifierType.QuantifierType
 
-case class QuantifierAN(quantifier: QuantifierType, rhLists: List[List[ANode]], separator: String) extends ANode {
+case class QuantifierAN(quantifier: QuantifierType, rhLists: List[List[ANode]], separator: Option[String]) extends ANode {
   override def toString: String = "[" + rhLists.mkString(" ") + "]" + QuantifierType.toString(quantifier) + "\"" + separator + "\""
 
   private def buildRIList(lexemes: SourceCodeLexemeReader, ast: AST): (Option[List[Node]],Int) = {
     def readSeparator(): Option[Node] = {
-      if (lexemes.hasNext && lexemes.tryNextLexeme().value == separator) {
-        val lexeme = lexemes.nextLexeme()
-        Some(new TokenNode(lexeme))
-      } else None
+      separator match {
+        case Some(sep)=>
+          if (lexemes.hasNext && lexemes.tryNextLexeme().value == sep) {
+            val lexeme = lexemes.nextLexeme()
+            Some(new TokenNode(lexeme))
+          } else None
+        case None => None
+      }
     }
     var count=0
     val res = new ArrayBuffer[Node]()
@@ -46,22 +50,24 @@ case class QuantifierAN(quantifier: QuantifierType, rhLists: List[List[ANode]], 
     val startOffset = lexemes.offset
     val (ruleItems, count)=buildRIList(lexemes, ast)
     ruleItems match {
-      case Some(ruleItems) =>
+      case Some(items) =>
         val isCorrect = quantifier match {
           case QuantifierType.ONE_OR_ZERO => count <= 1
           case QuantifierType.AT_LEAST_ONE => count >= 1
           case _ => true
         }
-        if (isCorrect)
-          Some(new SequenceNode(ruleItems,separator,count))
-        else {
-          lexemes.offset = startOffset
-          None
+        if (isCorrect) {
+          Some(new SequenceNode(items, separator, count))
+        } else {
+            lexemes.offset = startOffset
+            None
         }
-      case _ => None
+      case None =>
+        if (quantifier==QuantifierType.ONE_OR_ZERO || quantifier==QuantifierType.ANY)
+          Some(new EmptyNode)
+        else None
     }
   }
-
 }
 
 object QuantifierType extends Enumeration {

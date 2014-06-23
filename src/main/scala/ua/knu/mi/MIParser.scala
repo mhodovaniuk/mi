@@ -119,9 +119,14 @@ object MIParser {
     }
 
     def CONSTR: Parser[QuantifierAN] = {
-      "[" ~ RI_LIST ~ "]" ~ QUANTIFIER ~ token ^^ {
+      "[" ~ RI_LIST ~ "]" ~ QUANTIFIER ~ opt(token) ^^ {
         case _ ~ rhList ~ _ ~ quantifier ~ separator => QuantifierAN(
-          quantifier, RuleUtils.splitRuleOnAltRules(rhList), StringUtils.removeBracketsAroundString(separator)
+          quantifier, RuleUtils.splitRuleOnAltRules(rhList),
+          separator
+          match {
+            case Some(s) => Some(StringUtils.removeBracketsAroundString(s))
+            case None => None
+          }
         )
       }
     }

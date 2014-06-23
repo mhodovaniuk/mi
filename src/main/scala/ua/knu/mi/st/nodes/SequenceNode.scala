@@ -2,10 +2,13 @@ package ua.knu.mi.st.nodes
 
 import ua.knu.mi.st.nodes.Node._
 
-class SequenceNode(val subNodes:List[Node],val separator:String,val count:Int) extends ComplexNode {
+class SequenceNode(val subNodes:List[Node],val separator:Option[String],val count:Int) extends ComplexNode {
   attributes+=(COUNT->count)
-  attributes+=(SEPARATOR->separator)
-  attributes+=(SUB_NODES->subNodes)
+  separator match {
+    case Some(s)=>attributes+=(SEPARATOR->s)
+    case None =>
+  }
+  attributes+=(SUB_NODES->subNodes.filter(!_.isInstanceOf[EmptyNode]))
   
 
   override def toString: String = "SEQUENCE"

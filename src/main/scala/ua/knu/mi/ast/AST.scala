@@ -2,7 +2,7 @@ package ua.knu.mi.ast
 
 import ua.knu.mi.lexer.{SourceCodeLexemeReader, Lexer}
 import scala.collection.mutable
-import ua.knu.mi.ast.syntax.RuleAN
+import ua.knu.mi.ast.syntax.{AttributeAN, ComplexANode, ANode, RuleAN}
 import ua.knu.mi.st.ST
 
 class AST(val root: AProgram) extends Serializable {
@@ -32,9 +32,12 @@ class AST(val root: AProgram) extends Serializable {
     primitiveTypes.contains(typeName)
   }
 
-  def getRules(itemName:String,ruleName: String): List[RuleAN] = {
-    types.typesHierarchy(ruleName).map(t => rules.get(t.name))
-      .filter { case None => false; case _ => true}.map(_.get).toList
+  def getSubTypes(ruleName: String): List[ComplexANode] = {
+    types.typesHierarchy(ruleName).filter(p=> rules.contains(p) || primitiveTypes.contains(p)).
+      map(typeName => rules.get(typeName) match {
+        case Some(rule)=>rule
+        case None => AttributeAN(ruleName, typeName)
+      }).toList
   }
 
   override def toString: String = root.toString

@@ -49,11 +49,17 @@ object RuleUtils {
     }
   }
 
-  def buildFromSubClasses(lexemes: SourceCodeLexemeReader, ast: AST, rules: List[RuleAN]): Option[Node] = {
-    for (rule <- rules) {
-      buildFromRule(lexemes, ast, rule) match {
-        case Some(ruleItem) => return Some(ruleItem)
-        case _ =>
+  def buildFromSubTypes(lexemes: SourceCodeLexemeReader, ast: AST, subTypes: List[ComplexANode]): Option[Node] = {
+    for (subType <- subTypes) {
+      subType match {
+        case rule:RuleAN => buildFromRule(lexemes, ast, rule) match {
+          case Some(n) => return Some(n)
+          case _ =>
+        }
+        case t:AttributeAN => t.build(lexemes,ast) match {
+          case Some(n) => return Some(n)
+          case _ =>
+        }
       }
     }
     None

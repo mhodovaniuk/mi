@@ -9,6 +9,7 @@ trait Node {
   def lexemesRange:(Lexeme,Lexeme)=(firstLexeme,lastLexeme)
   def firstLexeme:Lexeme
   def lastLexeme:Lexeme
+  def ignore = false
 }
 
 object Node{
