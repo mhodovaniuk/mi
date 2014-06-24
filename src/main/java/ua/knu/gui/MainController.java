@@ -68,7 +68,7 @@ public class MainController implements Initializable {
                 (Callback<TableColumn.CellDataFeatures<Tuple2<String, Object>, String>, ObservableValue<String>>) param
                         -> new ReadOnlyStringWrapper(param.getValue()._2().toString()));
 
-        onNewProject(ProjectFactory.createProject("/home/mykhailo/WorkSpace/scala/mi/sql.json","/home/mykhailo/WorkSpace/scala/mi/sql.mi","/home/mykhailo/WorkSpace/scala/mi/sourcecode.sql"));
+        onNewProject(ProjectFactory.createProject("sql.json","sql.mi","sourcecode.sql"));
 //        onNewProject(ProjectFactory.createProject("/home/mykhailo/WorkSpace/scala/mi/sql.json","/home/mykhailo/WorkSpace/scala/mi/dbd.mi","/home/mykhailo/WorkSpace/scala/mi/query.dbd"));
     }
 

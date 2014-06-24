@@ -1,7 +1,7 @@
 {
     "case-sensitive":false,
     "ignore":["whitespace"],
-    "keywords": ["select", "where", "from", "in"],
+    "keywords": ["select", "where", "from", "in", "like", "and"],
     "error": {
         "class-name":"error",
         "recovery-classes":["whitespace","separator"]
@@ -21,14 +21,14 @@
         },
         {
             "class":"string",
-            "pattern":"[\'][a-zA-Z0-9_]*[\']"
+            "pattern":"[\'][.@%a-zA-Z0-9_]*[\']"
         },
         {
             "class":"separator",
             "pattern":"[;,()]"
         },
         {
-            "class":"operations",
+            "class":"operator",
             "pattern":"="
         }
     ]

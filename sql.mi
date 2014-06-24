@@ -5,34 +5,30 @@ INHERITANCE.
         SELECT
     >.
 
-  ATTRIBUTES:
+  ATTR-EXPRESSION:
     <
-        identifier
-    >.
-
-  FROM:
-    <
-        TABLE
-    >.
-
-  EXPRESSION:
-    <
+        EQ-EXPRESSION;
         IN-EXPRESSION;
-        EQ-EXPRESSION
+        LIKE-EXPRESSION;
+        NEQ-EXPRESSION
     >.
-
-
 SYNTAX.
-    Start = SELECT.
+    Start = SQL-PROGRAM.
 
-    SELECT ::= "select" [ attributes => ATTRIBUTES ] + ","
-               "from" [ tables =>  FROM ]+ ","
-                "where" condition => EXPRESSION ;
+    SELECT ::= "select" [ column => COLUMN ] + ","
+               "from" [ tables =>  identifier ]+ ","
+                "where" condition => CONDITION ;
 
     COLUMN ::= [ table-name => identifier "." ] ! column-name => identifier;
 
-    TABLE ::= name => identifier;
+    IN-EXPRESSION ::= column => identifier "in" "(" select => SELECT ")";
 
-    IN-EXPRESSION ::= attribute => identifier "in" "(" select => SELECT ")";
+    EQ-EXPRESSION ::= column => identifier "=" value => string;
 
-    EQ-EXPRESSION ::= attribute => identifier "=" value => string;
+    LIKE-EXPRESSION ::= column => identifier "like" value => string;
+
+    NEQ-EXPRESSION ::= column => identifier "<>" value => string;
+
+    AND-EXPRESSION ::= bool-expression => ATTR-EXPRESSION "and" bool-expression => ATTR-EXPRESSION;
+
+    CONDITION ::= and => AND-EXPRESSION | attr => ATTR-EXPRESSION;
